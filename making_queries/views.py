@@ -27,3 +27,38 @@ def blogs_queryset(request):
         print("No blogs found in the second query.")
 
     return HttpResponse("Success")
+
+
+
+# Filters can reference fields on the model¶
+
+from django.db.models import F
+from django.db.models import Min
+from django.db.models import OuterRef, Subquery, Sum
+# def filter_referencing_fields(request):
+#     # entries = Entry.objects.filter(number_of_comments=F("number_of_pingbacks") * 2)
+#     # entries = Entry.objects.filter(pub_date__year=F("mod_date__year"))
+#     entries = Entry.objects.aggregate(first_published_year=Min("pub_date__year"))
+#     print(entries)
+#     return HttpResponse("Success")
+
+
+
+
+
+def filter_using_outer_ref_and_sub_query(request):
+   
+    entries = Entry.objects.values("pub_date__year").annotate(
+        top_rating=Subquery(
+            Entry.objects.filter(
+                pub_date__year=OuterRef("pub_date__year"),
+            )
+            .order_by("-rating")
+            .values("rating")[:1]
+        ),
+        total_comments=Sum("number_of_comments"),
+    )
+    
+    print(entries)
+    return HttpResponse("sucess")
+

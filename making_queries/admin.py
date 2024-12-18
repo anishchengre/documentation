@@ -18,12 +18,12 @@ class AuthorAdmin(admin.ModelAdmin):
 
 @admin.register(Entry)
 class EntryAdmin(admin.ModelAdmin):
-    list_display = ('headline', 'blog', 'pub_date', 'mod_date', 'number_of_comments', 'rating')
+    list_display = ('headline', 'blog', 'pub_date', 'mod_date', 'number_of_comments',  'number_of_pingbacks', 'rating')
     list_filter = ('pub_date', 'mod_date', 'blog', 'rating')
     search_fields = ('headline', 'body_text', 'authors__name', 'blog__name')
     date_hierarchy = 'pub_date'
     filter_horizontal = ('authors',)
-    readonly_fields = ('mod_date',)
+    # readonly_fields = ('mod_date',)
     list_editable = ('number_of_comments', 'rating')
     list_per_page = 20
 
