@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Blog, Author, Entry
+from .models import Blog, Author, Dog, Entry
 
 
 @admin.register(Blog)
@@ -36,3 +36,26 @@ class EntryAdmin(admin.ModelAdmin):
             'classes': ('collapse',),
         }),
     )
+
+@admin.register(Dog)
+class DogAdmin(admin.ModelAdmin):
+    list_display = ('name', 'data')
+    search_fields = ('name',)
+    list_per_page = 20
+    
+    fieldsets = (
+        (None, {
+            'fields': ('name',)
+        }),
+        ('Additional Info', {
+            'fields': ('data',),
+            'classes': ('collapse',),
+        }),
+    )
+
+
+
+
+
+
+
